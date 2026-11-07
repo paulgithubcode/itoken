@@ -1,129 +1,81 @@
 # 03 — Design System
 
-Dokumen ini menetapkan arah dan aturan visual. Nilai warna dan ukuran berikut adalah titik awal yang boleh disesuaikan saat implementasi visual, tetapi konsistensi harus dijaga.
+## 1. Prinsip visual
 
-Stack UI menggunakan Blade untuk markup/layout, Livewire 4 untuk interaksi server-driven, Tailwind CSS 4 untuk styling, JavaScript seperlunya, dan Vite untuk aset. Design system tidak menentukan kontrak backend. Batas platform ada di `09-frontend-architecture.md`.
+Gaya iToken: modern, profesional, bersih, tenang, dan developer-friendly. Utamakan keterbacaan dan hierarki. Hindari dekorasi berlebihan, banyak aksen, data berulang, dan tabel padat tanpa filter.
 
-## 1. Tema
+**Theme:** Public Website menggunakan tampilan Light. Dashboard mendukung Light dan Dark melalui preferensi lokal; halaman auth membaca preferensi tema Dashboard. Dark theme belum memiliki browser contrast acceptance pada seluruh halaman. Public Website tidak ikut berubah ketika tema Dashboard diganti.
 
-- Tema utama: Light.
-- Latar halaman: abu-abu sangat muda atau putih hangat.
-- Surface/kartu: putih.
-- Teks utama: slate/abu-abu gelap dengan kontras tinggi.
-- Teks sekunder: slate sedang.
-- Border: abu-abu terang.
-- Warna aksen: satu warna utama yang konsisten untuk CTA dan fokus.
-- Warna status: success, warning, danger, info; selalu disertai label teks.
+## 2. Design tokens
 
-Jangan menggunakan banyak warna aksen sekaligus.
+- **Canvas:** putih hangat/slate sangat muda.
+- **Surface:** putih; border slate muda.
+- **Text:** slate gelap untuk konten utama, slate sedang untuk bantuan.
+- **Accent:** indigo sebagai aksen UI saat ini untuk CTA, link, dan focus. Pertahankan satu accent utama.
+- **Status:** success, warning, danger, info dengan warna lembut dan label teks.
+- **Spacing:** skala konsisten kelipatan 4 px.
+- **Shape:** radius sedang pada tombol, input, card; border tipis; shadow hanya untuk hierarchy.
+- **Typography:** sans-serif yang bersih; tabular numerals untuk harga/saldo; monospace untuk code.
+- **Motion:** singkat dan fungsional. Sebagian transisi drawer menghormati `motion-reduce`; dukungan reduced-motion global belum diverifikasi/lengkap.
 
-## 2. Tipografi
+Nilai CSS token disimpan pada stylesheet frontend dan dapat disesuaikan visual tanpa mengubah makna status/ownership data.
 
-- Gunakan keluarga sans-serif yang bersih dan mudah dibaca.
-- Heading memiliki skala dan bobot konsisten.
-- Body text nyaman dibaca pada ukuran desktop maupun mobile.
-- Angka saldo, harga, token, dan statistik menggunakan angka tabular bila tersedia.
-- Code block menggunakan font monospace.
+## 3. Tipografi dan layout
 
-## 3. Spacing dan bentuk
+- Gunakan heading semantik berurutan dan lebar teks yang nyaman.
+- Gunakan satu primary action yang menonjol per area.
+- Public header horizontal pada desktop; menu ringkas/drawer pada mobile.
+- Dashboard memakai sidebar desktop, topbar kontekstual, dan drawer/navigasi ringkas di layar kecil.
+- Mobile: satu kolom untuk konten utama; tabel dapat scroll horizontal terkontrol atau berubah menjadi list.
+- Jangan mengandalkan warna sebagai satu-satunya cara membedakan status.
 
-Gunakan skala spacing konsisten berbasis kelipatan 4 px. Terapkan:
-- Jarak antarbagian yang cukup.
-- Padding kartu yang konsisten.
-- Radius sedang untuk kartu, input, dan tombol.
-- Border halus; shadow hanya bila membantu pemisahan layer.
-- Lebar konten dibatasi agar baris teks tidak terlalu panjang.
+## 4. Komponen reusable
 
-## 4. Komponen inti
+### Navigation
 
-### Navigasi
-- Public header.
-- Public footer.
-- Dashboard sidebar.
-- Dashboard topbar.
-- Breadcrumb.
-- Mobile navigation/drawer.
-- Language switcher.
+Public header/footer, dashboard sidebar/topbar, breadcrumb, mobile drawer, language switcher, active link state, skip link.
 
-### Tombol
-- Primary: satu tindakan utama per area.
-- Secondary: tindakan alternatif.
-- Tertiary/ghost: tindakan ringan.
-- Destructive: revoke/delete/logout bila relevan.
-- Disabled dan loading state harus terlihat jelas.
+### Buttons and controls
 
-### Form
-- Label di atas input.
-- Helper text bila diperlukan.
-- Error text dekat field yang bermasalah.
-- Password visibility toggle.
-- Select, checkbox, radio, textarea dengan ukuran dan fokus konsisten.
+Primary, secondary, ghost, destructive, disabled, loading; input, password visibility toggle, select, checkbox, radio, textarea, search, filter, date range. Label berada di atas field; helper/error dekat field terkait.
 
-### Data display
-- Summary card.
-- Badge status.
-- Table.
-- Pagination.
-- Tabs.
-- Filter bar.
-- Search field.
-- Empty state.
-- Skeleton/loading state.
-- Chart/graph.
-- Code block dengan tombol copy.
+### Content/data display
 
-### Feedback
-- Toast success/error.
-- Inline alert.
-- Confirmation dialog.
-- Tooltip untuk istilah teknis.
-- Empty state dengan CTA kontekstual.
+Card, summary, badge, responsive table, pagination, tabs, accordion, chart, code block/copy, empty state, skeleton, error/retry state, inline alert, toast, tooltip.
 
-### State integrasi
+### Dialog and feedback
 
-- Identitas pengguna: tampilkan state Clerk seperti signed out, loading, verification pending, error, dan signed in hanya berdasarkan status yang tervalidasi.
-- Data Backend API: loading, loaded, empty, stale/refreshing bila kontrak mendukung, dan error. Jangan mengisi state gagal dengan nilai demo yang terlihat nyata.
-- Integrasi belum aktif: gunakan label `DEMO`/`PENDING` dan aksi nonaktif atau simulasi yang menjelaskan batasnya.
-- PWA: tampilkan install, offline, update available, dan reconnected state secara informatif tanpa mengungkap data privat.
+Dialog mengelola focus masuk/keluar dan Escape jika aman. Tindakan destructive menyebut efeknya dengan jelas. Toast tidak menghalangi aksi dan diumumkan melalui live region.
 
-### Peran implementasi komponen
+### Auth/PWA components
 
-- Blade components menjadi sumber markup dan visual yang reusable.
-- Livewire mengelola interaction state dan mengirim event server yang sesuai; aksi bisnis hanya setelah Backend API contract tersedia.
-- Tailwind utilities mengatur visual state dan breakpoints, bukan data/authorization.
-- JavaScript menangani browser-only interaction seperti menu, dialog, clipboard, filter lokal demo, `beforeinstallprompt`, dan notifikasi update service worker.
-- Vite membangun CSS/JS dan aset publik; jangan menaruh runtime secret dalam bundle.
+Clerk flow state, verification notice, install prompt, offline notice, update available, reconnected state. Setiap state harus jujur pada sumbernya: mock diberi `DEMO`, status nyata menunggu integrasi.
 
-## 5. Status visual
+Dashboard menggunakan sidebar desktop dan drawer mobile dengan backdrop, Escape, focus return, serta active route. Dashboard dialog menggunakan native `<dialog>` atau pola dialog custom sesuai modul; perilaku keyboard perlu dites di browser. PWA notices hanya muncul sesuai state browser; tombol Install disembunyikan ketika event install tidak tersedia atau app sudah standalone. Offline, install, update, dan koneksi kembali mengikuti palette status yang sama dan tersedia dalam tiga locale.
 
-Status tidak boleh hanya dibedakan dengan warna.
+## 5. Visual status
 
-| Status | Gaya | Contoh label |
+| State | Arah visual | Aturan |
 |---|---|---|
-| Aktif / berhasil | Hijau lembut | Active, Paid, Success |
-| Menunggu | Kuning/amber lembut | Pending |
-| Gagal / kedaluwarsa | Merah lembut | Failed, Expired |
-| Dicabut / nonaktif | Abu-abu | Revoked, Inactive |
-| Informasi | Biru lembut | Info |
+| Active/success | Hijau lembut | Tampilkan label; hanya dari sumber terkonfirmasi |
+| Pending | Amber lembut | Label eksplisit “Menunggu/Pending” |
+| Failed/expired | Merah lembut | Jelaskan state dan langkah selanjutnya jika diketahui |
+| Revoked/inactive | Abu-abu | Jangan disamakan dengan error |
+| Info/demo | Biru atau neutral | Gunakan teks `DEMO`/`PENDING` |
 
-## 6. Ikon dan ilustrasi
+Jangan render `Paid`, `Success`, `Active`, saldo, atau live service status dari data mock tanpa penanda demo yang tampak.
 
-- Gunakan satu keluarga ikon secara konsisten.
-- Ikon dekoratif tidak boleh menggantikan label tindakan.
-- Hindari emoji sebagai ikon navigasi utama.
-- Ilustrasi homepage bersifat sederhana dan mendukung pesan produk.
+## 6. Integrasi teknis komponen
 
-## 7. Grafik
+- Blade components/layouts untuk markup konsisten.
+- Vanilla JavaScript ES modules untuk interaksi yang berjalan saat ini. Livewire 4 tersedia, tetapi belum digunakan signifikan pada halaman yang diaudit.
+- Tailwind CSS 4 untuk styling/responsive states.
+- JavaScript untuk browser-only behavior: drawer, clipboard, local mock search/filter, locale switcher, dan PWA events.
+- Vite membangun aset publik; tidak memuat secret atau business configuration privat.
+- Model/usage UI tidak terhubung langsung ke LiteLLM atau Redis.
 
-- Grafik harus memiliki judul, rentang waktu, label sumbu, dan satuan.
-- Tooltip menampilkan nilai tepat.
-- Sediakan ringkasan teks atau tabel untuk informasi penting.
-- Jangan membuat grafik kosong tampak seperti data nyata.
+## 7. Localization dan accessibility
 
-## 8. Auth, gateway, dan PWA visual
+Default `id`; dukung `en` dan `zh_CN`. Terjemahkan semua label, state, errors, dialog, install/offline/update UI. Proper nouns/model/provider/identifier/code tidak diterjemahkan. Format angka, tanggal, mata uang mengikuti locale dan source value terkonfirmasi.
 
-- Form auth memakai label, error per-field, disabled/loading state, password visibility toggle bila flow mengizinkan, dan pesan yang tidak mengungkap informasi akun berlebihan.
-- Branding layar autentikasi konsisten dengan iToken; tampilan hosted/embedded Clerk masih `PENDING`.
-- Informasi katalog, usage, pricing, atau status yang berasal dari AI gateway ditandai berdasarkan data Backend API. Jangan menampilkan panel koneksi langsung ke LiteLLM atau Redis.
-- Install/update/offline notices tidak menutupi tugas utama, dapat diakses keyboard, dan tidak menyiratkan offline access ke dashboard.
-- Rincian manifest/service worker ada di `09-frontend-architecture.md`.
+Target aksesibilitas: kontrol keyboard-operable, focus terlihat, icon bernama/berlabel, status memakai teks, tabel memiliki header/caption, dan chart memiliki ringkasan alternatif. Implementasi memiliki sebagian label, focus-visible, native dialogs/details, dan `aria-live`; keyboard, screen reader, kontras Light/Dark, serta dukungan reduced-motion belum diverifikasi menyeluruh. Tidak ada Livewire UI update yang digunakan sebagai pola utama saat ini.
