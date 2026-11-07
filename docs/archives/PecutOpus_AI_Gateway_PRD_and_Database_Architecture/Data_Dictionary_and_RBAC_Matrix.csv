@@ -1,0 +1,84 @@
+table_name,column_name,data_type,is_primary_key,is_foreign_key,foreign_target,is_nullable,description,security_notes
+roles,id,VARCHAR(30),TRUE,FALSE,,FALSE,Identifier unik role (super_admin admin developer_user),System RBAC
+roles,name,VARCHAR(50),FALSE,FALSE,,FALSE,Nama role tampilan,Public
+roles,description,TEXT,FALSE,FALSE,,TRUE,Deskripsi otoritas role,Public
+roles,is_system_role,BOOLEAN,FALSE,FALSE,,FALSE,Proteksi dari penghapusan tidak sengaja,System
+roles,created_at,TIMESTAMPTZ,FALSE,FALSE,,FALSE,Waktu pembuatan baris,Audit
+permissions,id,VARCHAR(60),TRUE,FALSE,,FALSE,Kode izin spesifik misal wallet:read_self,RBAC Privilege
+permissions,category,VARCHAR(30),FALSE,FALSE,,FALSE,Kategori modul izin,Grouping
+permissions,description,TEXT,FALSE,FALSE,,FALSE,Deskripsi fungsi hak akses,Public
+role_permissions,role_id,VARCHAR(30),TRUE,TRUE,roles(id),FALSE,FK role,RBAC Matrix
+role_permissions,permission_id,VARCHAR(60),TRUE,TRUE,permissions(id),FALSE,FK permission,RBAC Matrix
+users,id,UUID,TRUE,FALSE,,FALSE,UUID v4 unik user,Private
+users,email,VARCHAR(255),FALSE,FALSE,,FALSE,Email unik user,Unique Index Lowercase
+users,password_hash,VARCHAR(255),FALSE,FALSE,,TRUE,Hash Argon2id dengan salt,TIDAK PERNAH DI-SELECT KE CLIENT
+users,full_name,VARCHAR(100),FALSE,FALSE,,FALSE,Nama lengkap pengguna,Public profile
+users,role_id,VARCHAR(30),FALSE,TRUE,roles(id),FALSE,Peran akun pengguna,RBAC
+users,is_email_verified,BOOLEAN,FALSE,FALSE,,FALSE,Status verifikasi email,Verification
+users,is_mfa_enabled,BOOLEAN,FALSE,FALSE,,FALSE,Status 2FA TOTP,Security
+users,mfa_secret,VARCHAR(128),FALSE,FALSE,,TRUE,Secret TOTP terenkripsi AES-256,Encrypted at rest
+users,status,VARCHAR(20),FALSE,FALSE,,FALSE,active/suspended/banned,Account Control
+users,failed_login_attempts,INT,FALSE,FALSE,,FALSE,Counter salah password,Mitigasi Brute Force
+users,locked_until,TIMESTAMPTZ,FALSE,FALSE,,TRUE,Waktu gembok otomatis akun,Lockout Protection
+users,created_at,TIMESTAMPTZ,FALSE,FALSE,,FALSE,Waktu registrasi akun,Audit
+users,updated_at,TIMESTAMPTZ,FALSE,FALSE,,FALSE,Waktu pembaruan profil,Audit
+user_oauth_accounts,id,UUID,TRUE,FALSE,,FALSE,ID baris OAuth,Internal
+user_oauth_accounts,user_id,UUID,FALSE,TRUE,users(id),FALSE,FK ke tabel users,Relasi 1:N
+user_oauth_accounts,provider,VARCHAR(30),FALSE,FALSE,,FALSE,google atau github,Social Login
+user_oauth_accounts,provider_user_id,VARCHAR(255),FALSE,FALSE,,FALSE,ID unik sub dari provider,Identity
+user_sessions,id,UUID,TRUE,FALSE,,FALSE,ID sesi login,Internal
+user_sessions,user_id,UUID,FALSE,TRUE,users(id),FALSE,Pemilik sesi,Relasi 1:N
+user_sessions,refresh_token_hash,VARCHAR(64),FALSE,FALSE,,FALSE,Hash SHA-256 refresh token,Secure HttpOnly Cookie
+user_sessions,ip_address,INET,FALSE,FALSE,,TRUE,IP login pengguna,Audit
+user_sessions,user_agent,TEXT,FALSE,FALSE,,TRUE,User agent browser/device,Audit
+user_sessions,expires_at,TIMESTAMPTZ,FALSE,FALSE,,FALSE,Batas waktu masa aktif sesi,14 hari
+user_sessions,is_revoked,BOOLEAN,FALSE,FALSE,,FALSE,Flag revocation cepat,Logout All Devices
+developer_api_keys,id,UUID,TRUE,FALSE,,FALSE,UUID unik internal key,Internal
+developer_api_keys,user_id,UUID,FALSE,TRUE,users(id),FALSE,Pemilik API Key,RLS Isolated
+developer_api_keys,key_prefix,VARCHAR(24),FALSE,FALSE,,FALSE,Prefix publik e.g. sk_live_a1b2c3d4,Indexed for Redis Lookup
+developer_api_keys,key_hash,VARCHAR(64),FALSE,FALSE,,FALSE,SHA-256 dari secret key mentah,TIDAK PERNAH DISIMPAN MENTAH
+developer_api_keys,display_suffix,VARCHAR(8),FALSE,FALSE,,FALSE,4 karakter terakhir e.g. ...8f92,Tampilan UI
+developer_api_keys,name,VARCHAR(100),FALSE,FALSE,,FALSE,Label contoh Cursor IDE Kantor,User Label
+developer_api_keys,rate_limit_rpm,INT,FALSE,FALSE,,FALSE,Batas requests per minute,Mitigasi Bot Abuse
+developer_api_keys,status,VARCHAR(20),FALSE,FALSE,,FALSE,active/revoked/expired,Gateway Validation
+token_wallets,id,UUID,TRUE,FALSE,,FALSE,ID dompet pengguna,Internal
+token_wallets,user_id,UUID,FALSE,TRUE,users(id),FALSE,Relasi 1:1 ke users,Unique FK
+token_wallets,balance_base_tokens,BIGINT,FALSE,FALSE,,FALSE,Saldo token prabayar utama,CHECK >= 0
+token_wallets,bonus_tokens,BIGINT,FALSE,FALSE,,FALSE,Saldo bonus token promo,CHECK >= 0
+token_wallets,expires_at,TIMESTAMPTZ,FALSE,FALSE,,TRUE,Masa aktif saldo (30 hari),Auto extend on top-up
+token_wallets,version,INT,FALSE,FALSE,,FALSE,Optimistic lock version,Mencegah Race Condition
+pricing_tiers,id,VARCHAR(30),TRUE,FALSE,,FALSE,lite/plus/pro/max/ultra/titan,Katalog Paket
+pricing_tiers,name,VARCHAR(50),FALSE,FALSE,,FALSE,Nama paket,Public
+pricing_tiers,price_usd,DECIMAL(10 2),FALSE,FALSE,,FALSE,Harga dalam USD ($1.18 - $22.89),PRD Pricing
+pricing_tiers,base_tokens,BIGINT,FALSE,FALSE,,FALSE,Jumlah kuota token (20M - 430M),PRD Token Quota
+pricing_tiers,bonus_tokens,BIGINT,FALSE,FALSE,,FALSE,Bonus token promo (5M - 150M),PRD Bonus Quota
+pricing_tiers,validity_days,INT,FALSE,FALSE,,FALSE,Masa berlaku 30 hari,Prepaid Rule
+invoices,id,UUID,TRUE,FALSE,,FALSE,ID faktur pembayaran,Internal
+invoices,invoice_no,VARCHAR(50),FALSE,FALSE,,FALSE,Nomor tagihan e.g. INV-20261104-0012,Unique
+invoices,user_id,UUID,FALSE,TRUE,users(id),FALSE,Pembeli paket,RLS Isolated
+invoices,payment_gateway,VARCHAR(30),FALSE,FALSE,,FALSE,qris_midtrans / crypto_usdt,Payment Processor
+invoices,payment_status,VARCHAR(20),FALSE,FALSE,,FALSE,pending/paid/expired/failed,Webhook status
+token_ledger_transactions,id,UUID,TRUE,FALSE,,FALSE,ID transaksi buku besar,Immutable
+token_ledger_transactions,wallet_id,UUID,FALSE,TRUE,token_wallets(id),FALSE,Dompet terpengaruh,Accounting
+token_ledger_transactions,amount,BIGINT,FALSE,FALSE,,FALSE,Mutasi saldo (+ kredit / - debet),Double Entry
+ai_providers,id,VARCHAR(30),TRUE,FALSE,,FALSE,openai/anthropic/deepseek/google,Master Registry
+ai_providers,base_url,VARCHAR(255),FALSE,FALSE,,FALSE,Upstream URL resmi,Routing
+ai_providers,master_key_env_ref,VARCHAR(100),FALSE,FALSE,,FALSE,Nama ref variabel environment,TIDAK DISIMPAN DI TABEL UMUM
+ai_models,id,VARCHAR(100),TRUE,FALSE,,FALSE,gpt-4o / claude-3-5-sonnet / deepseek-chat,OpenAI Standard ID
+ai_models,provider_id,VARCHAR(30),FALSE,TRUE,ai_providers(id),FALSE,Penyedia asli,FK
+ai_models,multiplier_rate,DECIMAL(5 2),FALSE,FALSE,,FALSE,Nilai tukar token (0.3x - 15.0x),Margin Keuntungan Platform
+ai_models,is_active,BOOLEAN,FALSE,FALSE,,FALSE,Status ketersediaan model,Gateway Routing
+api_usage_logs,id,UUID,TRUE,FALSE,,FALSE,ID log pemakaian,Internal
+api_usage_logs,request_id,VARCHAR(64),FALSE,FALSE,,FALSE,ID unik request chat completion,Unique
+api_usage_logs,user_id,UUID,FALSE,TRUE,users(id),FALSE,User yang dipotong saldonya,RLS Isolated
+api_usage_logs,model_id,VARCHAR(100),FALSE,TRUE,ai_models(id),FALSE,Model yang dipanggil,Telemetry
+api_usage_logs,raw_total_tokens,INT,FALSE,FALSE,,FALSE,Total token mentah prompt + completion,Billed basis
+api_usage_logs,multiplier_applied,DECIMAL(5 2),FALSE,FALSE,,FALSE,Rate pengali saat request,Billing audit
+api_usage_logs,billed_platform_tokens,BIGINT,FALSE,FALSE,,FALSE,Token dipotong dari dompet,Accounting
+api_usage_logs,duration_ms,INT,FALSE,FALSE,,FALSE,Latensi request milidetik,Telemetry
+audit_logs,id,UUID,TRUE,FALSE,,FALSE,ID catatan audit,Internal
+audit_logs,actor_user_id,UUID,FALSE,TRUE,users(id),FALSE,Admin pelaksana,Security
+audit_logs,action,VARCHAR(60),FALSE,FALSE,,FALSE,Jenis tindakan (model.multiplier_updated),Audit Trail
+audit_logs,old_values,JSONB,FALSE,FALSE,,TRUE,Nilai sebelum diubah,Diff
+audit_logs,new_values,JSONB,FALSE,FALSE,,TRUE,Nilai sesudah diubah,Diff
+audit_logs,ip_address,INET,FALSE,FALSE,,TRUE,Alamat IP eksekutor,Forensik

@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+
+@theme {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-brand-50: #eef2ff;
+    --color-brand-100: #e0e7ff;
+    --color-brand-500: #6366f1;
+    --color-brand-600: #4f46e5;
+    --color-brand-700: #4338ca;
+    --color-ink: #0f172a;
+    --color-muted: #64748b;
+    --radius-panel: 1.5rem;
+}
+
+@layer base {
+    :root {
+        color-scheme: light;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        @apply font-sans;
+    }
+
+    ::selection {
+        @apply bg-indigo-100 text-indigo-950;
+    }
+}
+
+@layer components {
+    .nav-link {
+        @apply rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100;
+    }
+
+    .mobile-nav-link {
+        @apply rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100;
+    }
+
+    .footer-link {
+        @apply inline-flex rounded-sm transition-colors hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100;
+    }
+
+    .code-panel {
+        @apply overflow-hidden rounded-2xl bg-slate-950 text-slate-100 shadow-lg shadow-slate-950/10;
+    }
+
+    .prose-copy p {
+        @apply leading-7 text-slate-600;
+    }
+
+    .eyebrow {
+        @apply text-xs font-bold uppercase tracking-[.16em] text-indigo-700;
+    }
+
+    .section-title {
+        @apply mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl;
+    }
+
+    .section-description {
+        @apply mt-3 text-sm leading-6 text-slate-600 sm:text-base sm:leading-7;
+    }
+
+    .skip-link {
+        @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition-transform focus:translate-y-0 focus:outline-none focus:ring-4 focus:ring-indigo-300;
+    }
+}
