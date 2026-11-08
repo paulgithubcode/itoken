@@ -21,8 +21,8 @@ Status pengujian dicatat terpisah dari status implementasi. Hasil test/build har
 | Stage | Cakupan | Status implementasi | Status pengujian |
 |---|---|---|---|
 | 0 — Dokumentasi dan arsitektur | Stack, batas data, standar demo | Konsolidasi dokumentasi telah dilakukan; status implementasi aplikasi tidak dinilai oleh deliverable dokumentasi ini | Final review/penerimaan dokumentasi **Pending**; test/build tidak dijalankan dalam sinkronisasi ini (**Not Verified**) |
-| 1 — Public Website | Home, Models, Pricing, Docs, FAQ, About, Contact, legal, Status | **Completed — UI** untuk halaman yang tersedia; pricing/model tetap **Demo**; anchor How It Works yang terdokumentasi belum ada | Browser responsive/accessibility **Not Verified** |
-| 2 — Dashboard Foundation | Shell, drawer, Overview | **Completed — UI**; konten bisnis **Demo** dan route tidak terproteksi | Browser visual/keyboard **Not Verified** |
+| 1 — Public Website | Home, Models, Pricing, Docs, FAQ, About, Contact, legal, Status | **Completed — UI** untuk halaman yang tersedia; pricing/model tetap **Demo**; target anchor `#how-it-works` tersedia | Pemeriksaan konsistensi navigasi, konten, tema, dan komponen UI pada Home, Pricing, Models, Docs, FAQ, About, Contact, Terms, Privacy, dan Status **Verified** berdasarkan konfirmasi pengguna. Responsive lintas ukuran layar juga dikonfirmasi sesuai; rincian browser/perangkat/viewport tidak dicatat. Theme Switcher keyboard dan sinkronisasi Light/Dark/System telah diverifikasi; screen reader **Not Verified** |
+| 2 — Dashboard Foundation | Shell, drawer, Overview | **Completed — UI**; konten bisnis **Demo** dan route tidak terproteksi | Automated JS tests drawer lulus; browser visual/keyboard dan screen reader **Not Verified** |
 | 3 — Auth UI | Login, register, forgot/reset instruction, POST logout placeholder | **Completed — UI** untuk halaman; auth/session/logout operasional **Pending** | Tes render/static tersedia; Clerk/security/browser **Not Verified** |
 | 4 — Wallet/Billing | Billing, transaction table/detail, simulasi top-up | **Completed — UI**, proses **Demo**; wallet/payment integration **Pending** | Unit/UI test sebelumnya tersedia; payment/browser **Not Verified** |
 | 5 — API Keys/Models | API Keys UI; public model browser | API Keys **Demo**; dashboard Models **Partial** placeholder; server key/catalog integration **Pending** | Perilaku browser/integration **Not Verified** |
@@ -35,18 +35,20 @@ Status pengujian dicatat terpisah dari status implementasi. Hasil test/build har
 
 - **Cakupan:** halaman publik dan route tercatat pada `04-public-website.md`.
 - **Implementasi:** Blade pages, navigasi, locale; model dan harga contoh berlabel DEMO; metode bayar homepage hanya informasional.
-- **Kekurangan:** target `#how-it-works` tidak tersedia; docs/legal/status memuat placeholder; auth entry belum menjadi flow operasional.
+- **Kekurangan:** pemeriksaan konsistensi navigasi, konten, tema, dan komponen UI untuk halaman publik yang tercantum telah dinyatakan sesuai oleh pengguna. Responsive Public Website juga dikonfirmasi sesuai pada berbagai ukuran layar; rincian browser/perangkat/viewport tidak dicatat. Accessibility khusus belum diverifikasi; docs/legal/status memuat placeholder dan auth entry belum menjadi flow operasional.
 - **Status:** halaman **Completed — UI** atau **Partial** sesuai route matrix; data komersial **Demo**.
-- **Pengujian:** route/render build historis dicatat pada checklist; browser/responsive/keyboard **Not Verified** pada audit dokumentasi ini.
+- **Pengujian:** pengguna telah mengonfirmasi pemeriksaan konsistensi navigasi, konten, tema, dan komponen UI pada Home, Pricing, Models, Docs, FAQ, About, Contact, Terms, Privacy, dan Status sesuai. Pengguna juga memverifikasi navigasi langsung ke `#how-it-works`, posisi section, bahasa/tampilan yang diminta, keyboard Theme Switcher (Enter/Space, Arrow Up/Down, Home/End, Escape), perilaku desktop/mobile, sinkronisasi Light/Dark/System, serta tampilan responsive Public Website pada berbagai ukuran layar. Rincian browser/perangkat/viewport tidak dicatat. Screen reader belum diverifikasi.
 
 ## 4. Dashboard Foundation dan fitur
 
 - **Cakupan navigasi:** Overview, API Keys, Usage, Logs, Billing, Settings. Route Wallet, Transactions, Models, Developer Docs masih placeholder.
+- **Overview:** empat kartu ringkasan DEMO (saldo kredit ilustratif, permintaan API, token digunakan, API Keys aktif), grafik batang statis 14 hari, tiga aktivitas contoh, empty state API Keys, dan shortcut Logs/Billing. Tidak menampilkan bonus/masa berlaku, transaksi terbaru, atau shortcut lain yang tidak tersedia di implementasi saat ini.
 - **Overview/API Keys/Usage/Logs/Billing:** tersedia sebagai UI; data dan aksi bisnis **Demo**. Tidak ada Backend API, payment gateway, secret/key aktif, atau mutasi saldo.
 - **Settings/profile:** theme, density, rows, reset, profil contoh dan foto disimpan lokal. Status **Completed — Local**, tidak mewakili akun server.
 - **Keamanan:** route Dashboard belum memakai auth middleware; wajib dikerjakan sebelum data privat ditampilkan.
 - **Status:** UI foundation **Completed — UI**, fitur bisnis masih **Demo/Pending integration**.
 - **Pengujian:** `DashboardFoundationTest.php` dan tes JS yang tercantum dalam repo dapat menguji render/perilaku lokal. Browser acceptance **Not Verified** di sini.
+- **Drawer accessibility:** implementasi memakai `inert` untuk status drawer/area luar, tombol close, focus management, scroll lock yang dipulihkan, Escape/backdrop, dan resize desktop. `node tests/js/dashboard-drawer.test.js` lulus; browser manual dan screen reader **Not Verified**.
 
 ## 5. Authentication
 
@@ -66,7 +68,8 @@ Status pengujian dicatat terpisah dari status implementasi. Hasil test/build har
 
 ## 7. Settings dan Developer Experience
 
-- Preferensi display theme, density dan page size disimpan di localStorage namespace `itoken.dashboard.*`.
+- Preferensi tema global (Light, Dark, System) dikelola melalui `window.iTokenTheme` dan disimpan di localStorage dengan key utama `itoken.theme`; System mengikuti preferensi warna OS. Public Header menyediakan switcher desktop/mobile dan Dashboard Settings tetap menyediakan pengaturan tema. `itoken.dashboard.theme` hanya legacy key yang dibaca untuk migrasi ke key utama.
+- Preferensi density dan page size disimpan di localStorage dalam namespace `itoken.dashboard.*`.
 - Profil demo disimpan di `itoken.dashboard.profile.*`; nama/foto/nomor dapat berupa data pengguna lokal. Email demo read-only. Jangan masukkan data pribadi nyata ke demo.
 - Public docs dan dashboard Developer Docs memiliki konten placeholder; API/SDK contract belum disahkan.
 - **Status:** kontrol lokal **Completed — Local**; server account settings dan developer API docs **Pending**.
@@ -84,7 +87,7 @@ Status pengujian dicatat terpisah dari status implementasi. Hasil test/build har
 
 1. Sebelum data akun nyata: selesaikan Clerk server verification/session, protected Dashboard, identity mapping dan keputusan scaffold users.
 2. Sahkan kontrak Backend API/payment sebelum mengganti simulasi billing, key management, catalog, usage/logs atau wallet.
-3. Lengkapi `#how-it-works` dan placeholder public/docs sesuai spesifikasi produk yang disetujui.
+3. Verifikasi accessibility Public Website dan lengkapi placeholder public/docs sesuai spesifikasi produk yang disetujui; verifikasi tampilan responsive manual telah dikonfirmasi pengguna.
 4. Jalankan browser responsive/accessibility/PWA verification dan catat hasil terpisah dari status implementasi.
 5. Tambahkan tes perilaku untuk API Keys, Usage, Logs, drawer, dan PWA; package.json saat ini hanya menyediakan `build`/`dev`, tanpa script test JavaScript.
 
