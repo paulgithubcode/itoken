@@ -21,9 +21,9 @@ Status pengujian dicatat terpisah dari status implementasi. Hasil test/build har
 | Stage | Cakupan | Status implementasi | Status pengujian |
 |---|---|---|---|
 | 0 — Dokumentasi dan arsitektur | Stack, batas data, standar demo | Konsolidasi dokumentasi telah dilakukan; status implementasi aplikasi tidak dinilai oleh deliverable dokumentasi ini | Final review/penerimaan dokumentasi **Pending**; test/build tidak dijalankan dalam sinkronisasi ini (**Not Verified**) |
-| 1 — Public Website | Home, Models, Pricing, Docs, FAQ, About, Contact, legal, Status | **Completed — UI** untuk halaman yang tersedia; pricing/model tetap **Demo**; target anchor `#how-it-works` tersedia | Pemeriksaan konsistensi navigasi, konten, tema, dan komponen UI pada Home, Pricing, Models, Docs, FAQ, About, Contact, Terms, Privacy, dan Status **Verified** berdasarkan konfirmasi pengguna. Responsive lintas ukuran layar juga dikonfirmasi sesuai; rincian browser/perangkat/viewport tidak dicatat. Theme Switcher keyboard dan sinkronisasi Light/Dark/System telah diverifikasi; screen reader **Not Verified** |
-| 2 — Dashboard Foundation | Shell, drawer, Overview | **Completed — UI**; konten bisnis **Demo** dan route tidak terproteksi | Automated JS tests drawer lulus; browser visual/keyboard dan screen reader **Not Verified** |
-| 3 — Auth UI | Login, register, forgot/reset instruction, POST logout placeholder | **Completed — UI** untuk halaman; auth/session/logout operasional **Pending** | Tes render/static tersedia; Clerk/security/browser **Not Verified** |
+| 1 — Public Website | Home, Models, Pricing, Docs, FAQ, About, Contact, legal, Status | **Completed — UI** untuk halaman yang tersedia; pricing/model tetap **Demo**; target anchor `#how-it-works` tersedia | Pemeriksaan visual yang terkonfirmasi: homepage pada desktop, tablet, dan mobile. Halaman publik lain tidak dinyatakan telah diuji manual di catatan ini. Navigasi langsung ke `#how-it-works` telah diverifikasi; rincian browser/perangkat/viewport tidak dicatat. Keyboard Theme Switcher, screen reader, dan aksesibilitas **Not Verified** |
+| 2 — Dashboard Foundation | Shell, drawer, Overview | **Completed — UI**; konten bisnis **Demo** dan route tidak terproteksi | Pengguna mengonfirmasi pemeriksaan visual halaman internal yang tercakup dalam tinjauan sebelumnya; daftar route dan viewport tidak dicatat. Automated JS tests drawer lulus; perilaku browser/keyboard dan screen reader **Not Verified** |
+| 3 — Auth UI | Login, register, forgot/reset instruction, POST logout placeholder | **Completed — UI** untuk halaman; auth/session/logout operasional **Pending** | Pengguna mengonfirmasi pemeriksaan visual Login, Register, dan Forgot Password. Password Reset Instructions, Clerk/security, flow operasional, dan accessibility **Not Verified** |
 | 4 — Wallet/Billing | Billing, transaction table/detail, simulasi top-up | **Completed — UI**, proses **Demo**; wallet/payment integration **Pending** | Unit/UI test sebelumnya tersedia; payment/browser **Not Verified** |
 | 5 — API Keys/Models | API Keys UI; public model browser | API Keys **Demo**; dashboard Models **Partial** placeholder; server key/catalog integration **Pending** | Perilaku browser/integration **Not Verified** |
 | 6 — Usage/Logs | Summary, charts, filter, table, detail | **Completed — UI**, data **Demo** | Perilaku browser/accessibility **Not Verified** |
@@ -31,13 +31,15 @@ Status pengujian dicatat terpisah dari status implementasi. Hasil test/build har
 | 8 — PWA | Manifest, SW, install/offline/update UI | **Completed — UI**; runtime browser **Not Verified** | Static checks pernah dicatat; browser/device **Not Verified** |
 | 9 — Integrasi | Clerk dan Backend API end-to-end | **Pending**; kontrak belum tersedia | Belum dapat diverifikasi |
 
+SEO teknis frontend kini memiliki metadata per halaman, canonical produksi, sitemap terpilih, robots.txt, noindex untuk halaman demo/auth/dashboard/error, dan JSON-LD dasar. Verifikasi domain produksi dan indexing masih Pending; rincian implementasi dan roadmap SEO/SEM ada di `11-seo-sem.md`.
+
 ## 3. Public Website
 
 - **Cakupan:** halaman publik dan route tercatat pada `04-public-website.md`.
 - **Implementasi:** Blade pages, navigasi, locale; model dan harga contoh berlabel DEMO; metode bayar homepage hanya informasional.
-- **Kekurangan:** pemeriksaan konsistensi navigasi, konten, tema, dan komponen UI untuk halaman publik yang tercantum telah dinyatakan sesuai oleh pengguna. Responsive Public Website juga dikonfirmasi sesuai pada berbagai ukuran layar; rincian browser/perangkat/viewport tidak dicatat. Accessibility khusus belum diverifikasi; docs/legal/status memuat placeholder dan auth entry belum menjadi flow operasional.
+- **Kekurangan:** responsive/visual manual yang terkonfirmasi hanya mencakup homepage desktop, tablet, dan mobile. Halaman publik lain belum dinyatakan lulus pemeriksaan visual manual. Accessibility khusus belum diverifikasi; docs/legal/status memuat placeholder dan auth entry belum menjadi flow operasional.
 - **Status:** halaman **Completed — UI** atau **Partial** sesuai route matrix; data komersial **Demo**.
-- **Pengujian:** pengguna telah mengonfirmasi pemeriksaan konsistensi navigasi, konten, tema, dan komponen UI pada Home, Pricing, Models, Docs, FAQ, About, Contact, Terms, Privacy, dan Status sesuai. Pengguna juga memverifikasi navigasi langsung ke `#how-it-works`, posisi section, bahasa/tampilan yang diminta, keyboard Theme Switcher (Enter/Space, Arrow Up/Down, Home/End, Escape), perilaku desktop/mobile, sinkronisasi Light/Dark/System, serta tampilan responsive Public Website pada berbagai ukuran layar. Rincian browser/perangkat/viewport tidak dicatat. Screen reader belum diverifikasi.
+- **Pengujian:** homepage telah dikonfirmasi diperiksa visual pada desktop, tablet, dan mobile; pengguna juga mengonfirmasi pemeriksaan visual Login, Register, Forgot Password, serta halaman internal yang tercakup dalam tinjauan sebelumnya. Inventaris route internal dan viewport, browser, serta perangkat tidak dicatat. Navigasi langsung ke `#how-it-works` telah diverifikasi. Theme Switcher keyboard, sinkronisasi tema melalui pemeriksaan manual, dan screen reader **Not Verified**; automated tests Theme Switcher dicatat terpisah.
 
 ## 4. Dashboard Foundation dan fitur
 
@@ -87,7 +89,7 @@ Status pengujian dicatat terpisah dari status implementasi. Hasil test/build har
 
 1. Sebelum data akun nyata: selesaikan Clerk server verification/session, protected Dashboard, identity mapping dan keputusan scaffold users.
 2. Sahkan kontrak Backend API/payment sebelum mengganti simulasi billing, key management, catalog, usage/logs atau wallet.
-3. Verifikasi accessibility Public Website dan lengkapi placeholder public/docs sesuai spesifikasi produk yang disetujui; verifikasi tampilan responsive manual telah dikonfirmasi pengguna.
+3. Verifikasi accessibility Public Website dan lengkapi placeholder public/docs sesuai spesifikasi produk yang disetujui; cakupan responsive manual yang telah dikonfirmasi terbatas pada homepage desktop, tablet, dan mobile.
 4. Jalankan browser responsive/accessibility/PWA verification dan catat hasil terpisah dari status implementasi.
 5. Tambahkan tes perilaku untuk API Keys, Usage, Logs, drawer, dan PWA; package.json saat ini hanya menyediakan `build`/`dev`, tanpa script test JavaScript.
 

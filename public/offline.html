@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8fafc">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Offline — iToken</title>
+  <style>
+    :root{color-scheme:light;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#0f172a;background:#f8fafc}*{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:1.25rem}.panel{width:min(100%,34rem);border:1px solid #e2e8f0;border-radius:1.75rem;background:#fff;padding:clamp(1.5rem,5vw,2.5rem);box-shadow:0 24px 60px -45px #312e81}.brand{display:flex;align-items:center;gap:.75rem;font-weight:800}.mark{display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:.8rem;background:#4f46e5;color:#fff;font-size:.8rem}.tag{display:inline-flex;margin-top:2rem;border:1px solid #fde68a;border-radius:999px;background:#fffbeb;padding:.4rem .7rem;color:#854d0e;font-size:.75rem;font-weight:700}h1{margin:1rem 0 .5rem;font-size:clamp(1.6rem,6vw,2.1rem);letter-spacing:-.04em}p{color:#475569;line-height:1.7}.actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.5rem}button,a{min-height:2.8rem;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:.8rem;padding:.7rem 1rem;font:inherit;font-size:.9rem;font-weight:700;text-decoration:none;cursor:pointer}button{background:#4f46e5;color:#fff}a{border:1px solid #e2e8f0;background:#fff;color:#334155}button:focus-visible,a:focus-visible,select:focus-visible{outline:4px solid #e0e7ff;outline-offset:2px}.locale{margin-top:1rem}.locale select{min-height:2.5rem;border:1px solid #cbd5e1;border-radius:.7rem;background:#fff;padding:.4rem .7rem;font:inherit}
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <div class="brand"><span class="mark" aria-hidden="true">iT</span><span>iToken</span></div>
+    <span class="tag" data-text="tag">Mode offline</span>
+    <h1 data-text="title">Koneksi internet tidak tersedia</h1>
+    <p data-text="body">Hubungkan kembali perangkat ke internet, lalu coba lagi. Dashboard, autentikasi, saldo, transaksi, API key, dan fitur yang memerlukan server tidak tersedia offline.</p>
+    <p data-text="privacy">Halaman ini tidak menyimpan atau menampilkan data akun. Status offline bukan bukti bahwa Anda masih masuk.</p>
+    <div class="actions"><button type="button" onclick="window.location.reload()" data-text="retry">Coba lagi</button><a href="/" data-text="home">Beranda</a></div>
+    <div class="locale"><label for="offline-language" data-text="language">Bahasa</label><br><select id="offline-language"><option value="id">Bahasa Indonesia</option><option value="en">English</option><option value="zh_CN">简体中文</option></select></div>
+  </main>
+  <script>
+    const words={id:{tag:'Mode offline',title:'Koneksi internet tidak tersedia',body:'Hubungkan kembali perangkat ke internet, lalu coba lagi. Dashboard, autentikasi, saldo, transaksi, API key, dan fitur yang memerlukan server tidak tersedia offline.',privacy:'Halaman ini tidak menyimpan atau menampilkan data akun. Status offline bukan bukti bahwa Anda masih masuk.',retry:'Coba lagi',home:'Beranda',language:'Bahasa'},en:{tag:'Offline mode',title:'You are not connected to the internet',body:'Reconnect your device and try again. The dashboard, authentication, balance, transactions, API keys, and server features are unavailable offline.',privacy:'This page does not store or show account data. Offline status does not mean you are still signed in.',retry:'Try again',home:'Home',language:'Language'},zh_CN:{tag:'离线模式',title:'当前未连接互联网',body:'请重新连接网络后重试。离线时无法使用控制台、身份验证、余额、交易、API 密钥及其他服务器功能。',privacy:'此页面不会保存或显示账户数据。离线状态不代表您仍处于登录状态。',retry:'重试',home:'首页',language:'语言'}};
+    const select=document.querySelector('#offline-language');let active='id';try{const saved=localStorage.getItem('itoken-ui-locale');if(words[saved])active=saved}catch{};select.value=active;function apply(lang){active=words[lang]?lang:'id';document.documentElement.lang=active==='zh_CN'?'zh-CN':active;document.title=(active==='id'?'Offline':active==='en'?'Offline':'离线')+' — iToken';document.querySelectorAll('[data-text]').forEach(el=>el.textContent=words[active][el.dataset.text]);try{localStorage.setItem('itoken-ui-locale',active)}catch{}}select.addEventListener('change',()=>apply(select.value));apply(active);
+  </script>
+</body>
+</html>

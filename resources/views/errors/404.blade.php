@@ -1,4 +1,4 @@
-<x-layouts.app title="Halaman tidak ditemukan" active="notfound">
+<x-layouts.app title="Halaman tidak ditemukan" description="Alamat yang diminta tidak tersedia di iToken." active="notfound" robots="noindex, nofollow" :canonical="false">
     <div class="mx-auto max-w-xl py-12 text-center sm:py-20">
         <p class="text-sm font-bold uppercase tracking-[.18em] text-indigo-700">404</p>
         <h1 class="mt-4 text-4xl font-bold tracking-tight text-slate-950" data-i18n="notfound.title">Halaman tidak ditemukan</h1>

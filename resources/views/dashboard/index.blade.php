@@ -19,7 +19,7 @@
     <meta name="itoken-service-worker" content="/service-worker.js?v={{ file_exists(public_path('build/manifest.json')) ? substr(hash_file('sha256', public_path('build/manifest.json')), 0, 12) : 'dev' }}">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="description" content="iToken dashboard preview — data demonstrasi.">
+    <meta name="description" content="Area dashboard iToken dalam mode demo; belum menggunakan autentikasi backend atau data akun operasional.">
     <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="Cache-Control" content="no-store">
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">

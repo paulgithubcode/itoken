@@ -46,6 +46,8 @@ Fondasi UI saat ini menyediakan route demo `/dashboard/{section?}`. Response mem
 
 Struktur aktual: `routes/web.php` memetakan halaman publik, auth, dan satu route Dashboard dengan parameter section; `resources/views/components/layouts/` menyediakan layout publik dan auth; `resources/views/dashboard/index.blade.php` merender section Dashboard; `resources/views/components/` berisi komponen Blade. `resources/js/app.js` menginisialisasi locale, navigasi, dan modul halaman; modul `dashboard-*.js` serta kamus `*-translations.js` mengelola perilaku/teks fitur terkait. Vite hanya memiliki entry `resources/css/app.css` dan `resources/js/app.js`.
 
+SEO publik menggunakan metadata dari layout Blade dan konfigurasi origin produksi di `config/services.php`. Route `/sitemap.xml` hanya mencantumkan halaman yang dinilai layak diindeks. Kebijakan halaman, locale, dan SEM dirinci di [11 — SEO dan SEM](11-seo-sem.md). Locale saat ini berbasis JavaScript/localStorage, bukan URL bahasa terpisah; tidak ada hreflang.
+
 ## 3. Lapisan aplikasi
 
 ### Browser/PWA
@@ -107,7 +109,7 @@ UI tidak mengirim permintaan model langsung ke provider atau LiteLLM. Bila produ
 | Prompt dan completion | Konten sensitif AI | Zero-logging; jangan tampilkan di dashboard history/log/cache |
 | Static assets publik | Frontend/Vite | Boleh masuk allowlist PWA setelah direview |
 
-Jangan simpan token/secret di browser storage. Implementasi saat ini menyimpan locale (`itoken-ui-locale`) dan preferensi Dashboard (`itoken.dashboard.*`) di localStorage; profil DEMO memakai `itoken.dashboard.profile.*` termasuk data foto yang dipilih pengguna. Data tersebut bukan identity/session maupun profil server. Hindari data pribadi nyata pada demo. PWA tidak menyimpan response privat, wallet, transaction, API key, usage, prompt, atau completion.
+Jangan simpan token/secret di browser storage. Implementasi saat ini menyimpan locale (`itoken-ui-locale`), preferensi tema global (`itoken.theme`), preferensi Dashboard lain (density/table rows), dan profil DEMO (`itoken.dashboard.profile.*`, termasuk foto yang dipilih pengguna) di localStorage. Preferensi tema dikelola melalui `window.iTokenTheme`; `itoken.dashboard.theme` hanya legacy key yang dibaca untuk migrasi ke key utama `itoken.theme`. Data tersebut bukan identity/session maupun profil server. Hindari data pribadi nyata pada demo. PWA tidak menyimpan response privat, wallet, transaction, API key, usage, prompt, atau completion.
 
 ## 6. Error dan state UI
 

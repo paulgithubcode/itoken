@@ -16,6 +16,7 @@ Dokumen di direktori ini adalah acuan resmi UI/UX dan implementasi frontend iTok
 | [08 — PWA](08-pwa.md) | Manifest, icons, service worker, caching, offline, install dan update |
 | [09 — Implementation Roadmap](09-implementation-roadmap.md) | Stage 0–9, dependensi, deliverable, acceptance dan status |
 | [10 — Acceptance Checklist](10-acceptance-checklist.md) | Checklist lintas halaman, integrasi, aksesibilitas, PWA dan rilis |
+| [11 — SEO dan SEM](11-seo-sem.md) | Metadata, indexability, sitemap, structured data, kampanye dan pengukuran |
 
 ## Status implementasi
 
@@ -40,6 +41,8 @@ Status implementasi dipisahkan dari status test/build/browser. Halaman atau tomb
 - Tandai data sintetis dan interaksi yang belum terintegrasi sebagai **Demo**. Tandai keputusan atau kontrak yang belum disepakati sebagai **Pending**.
 - Jangan menyatakan pembayaran, saldo, model, API key, penggunaan, sesi, atau status layanan aktif bila hanya berupa mock.
 - Pertahankan zero-logging prompt/completion dan jangan cache data privat di PWA.
+- Public Website dan Dashboard menggunakan preferensi tema global Light/Dark/System; System mengikuti preferensi OS. Public Header menyediakan switcher desktop/mobile, Dashboard Settings menyediakan pengaturan tema, dan `window.iTokenTheme` mengelola preferensi dengan key utama `itoken.theme`.
+- `itoken.dashboard.theme` hanya legacy key untuk migrasi dan bukan key utama tema saat ini.
 - Dokumen lama di `docs/archives/` adalah referensi historis PecutOpus, bukan spesifikasi aktif iToken.
 
 ## Status saat konsolidasi

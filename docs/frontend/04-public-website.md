@@ -4,7 +4,7 @@
 
 Public Website menjelaskan nilai iToken sebelum login dan membawa pengunjung ke eksplorasi model, harga, petunjuk, dan FAQ. **Homepage adalah prioritas visual pertama**: proposisi nilai harus dipahami cepat, CTA terlihat, dan seluruh data yang belum final ditandai DEMO/PENDING.
 
-Public Website dan Customer Dashboard berbagi logo, light theme, type scale, spacing, color tokens, buttons, cards, badges, forms, dan accessibility patterns. Public navigation dan dashboard navigation boleh berbeda untuk tujuan tugas.
+Public Website dan Customer Dashboard berbagi logo, preferensi tema global (Light, Dark, System), type scale, spacing, color tokens, buttons, cards, badges, forms, dan accessibility patterns. Pilihan System mengikuti preferensi warna OS. Theme switcher berada di Public Header untuk desktop dan mobile; tema juga dapat diatur dari Dashboard Settings. Public navigation dan dashboard navigation boleh berbeda untuk tujuan tugas.
 
 ### Pengguna dan nilai utama
 
@@ -24,7 +24,7 @@ Route publik yang tersedia pada implementasi saat ini:
 | Models | `/models` | Search, filter provider, cards, category/context | Mock; bukan katalog aktif |
 | Pricing | `/pricing` | Paket, bonus, masa berlaku demo, FAQ | Mock; bukan penawaran dan tidak memulai payment |
 | Documentation | `/docs` | Overview, quickstart placeholder, model info, code examples, security | Placeholder; bukan API contract |
-| How It Works | Section homepage (saat ini tidak memiliki target `#how-it-works`) | Konsep jelajah model, kredit, penggunaan | **Partial**; section ada, anchor yang didokumentasikan belum tersedia |
+| How It Works | Section homepage dengan target `#how-it-works` | Konsep jelajah model, kredit, penggunaan | **Partial**; navigasi langsung dan posisi section telah diverifikasi manual. Pemeriksaan visual responsive yang terkonfirmasi mencakup homepage pada desktop, tablet, dan mobile; pemeriksaan tersebut tidak menyatakan seluruh halaman publik telah diuji |
 | FAQ | `/faq` | Pertanyaan umum produk | Copy statis, sebagian jawaban masih Pending |
 | About | `/about` | Tujuan dan prinsip iToken | Copy produk; bukan klaim service availability |
 | Contact | `/contact` | Kanal resmi atau placeholder | Kanal kontak belum ditentukan; jangan pura-pura mengirim pesan |
@@ -34,6 +34,10 @@ Route publik yang tersedia pada implementasi saat ini:
 | 404 | Fallback route | Pesan dan kembali ke homepage | UI lokal |
 
 Route yang belum tersedia atau berubah harus diperbarui di dokumen sebelum link publik diarahkan ke sana. Jangan membuat route integrasi/API berdasarkan asumsi.
+
+Metadata publik, kebijakan index/noindex, sitemap, robots.txt, dan status konten demo dicatat pada [11 — SEO dan SEM](11-seo-sem.md). Untuk saat ini hanya Home, About, dan FAQ yang masuk sitemap; halaman demo/placeholder belum ditargetkan untuk indeks.
+
+Status verifikasi visual: pengguna mengonfirmasi homepage telah diperiksa pada desktop, tablet, dan mobile. Pengguna juga mengonfirmasi pemeriksaan visual pada halaman internal yang tercakup dalam tinjauan sebelumnya; daftar URL dan viewport halaman internal tersebut tidak dicatat di sini. Login, Register, dan Forgot Password tercatat sebagai diperiksa secara visual di [06 — Authentication](06-authentication.md). Halaman publik lain tidak dinyatakan telah diuji manual berdasarkan catatan ini; pemeriksaan statis dan automated tests bukan bukti visual browser.
 
 ## 3. Homepage sections
 
@@ -83,6 +87,8 @@ Homepage tidak menampilkan saldo akun, key aktif, transaksi, statistik live, ata
 `id` default; `en` dan `zh_CN` harus mencakup seluruh copy dan UI states. Language selector konsisten desktop/mobile. Locale persistence server/account policy masih Pending; browser preference boleh disimpan sebagai data non-sensitif saja.
 
 Public header horizontal di desktop dan drawer/menu pada mobile; tombol memiliki `aria-expanded`, nama accessible, focus, dan Escape behavior. Semua footer/header link harus menuju route/section yang tersedia. Tablet tidak boleh membuat nav/CTA bertabrakan.
+
+Homepage telah dikonfirmasi diperiksa secara visual pada desktop, tablet, dan mobile. Browser, perangkat, serta ukuran viewport spesifik tidak dicatat. Responsive layout halaman publik lainnya masih **Pending manual verification**. Pemeriksaan visual homepage tidak menandai pengujian keyboard, screen reader, contrast, atau aspek accessibility lain sebagai selesai.
 
 ## 8. Implementasi dan state
 

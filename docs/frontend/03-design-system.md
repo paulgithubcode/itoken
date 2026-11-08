@@ -4,7 +4,7 @@
 
 Gaya iToken: modern, profesional, bersih, tenang, dan developer-friendly. Utamakan keterbacaan dan hierarki. Hindari dekorasi berlebihan, banyak aksen, data berulang, dan tabel padat tanpa filter.
 
-**Theme:** Public Website menggunakan tampilan Light. Dashboard mendukung Light dan Dark melalui preferensi lokal; halaman auth membaca preferensi tema Dashboard. Dark theme belum memiliki browser contrast acceptance pada seluruh halaman. Public Website tidak ikut berubah ketika tema Dashboard diganti.
+**Global Theme:** Public Website dan Dashboard menggunakan preferensi tema global dengan pilihan Light, Dark, dan System. System mengikuti preferensi warna OS. Theme switcher tersedia pada Public Header untuk desktop dan mobile; Dashboard Settings juga menyediakan pengaturan tema. Halaman auth membaca preferensi tema global yang sama. Preferensi utama disimpan di localStorage sebagai `itoken.theme` dan dikelola melalui `window.iTokenTheme`. Key `itoken.dashboard.theme` hanya legacy key yang dibaca untuk migrasi. Dark theme belum memiliki browser contrast acceptance pada seluruh halaman.
 
 ## 2. Design tokens
 
@@ -53,6 +53,8 @@ Clerk flow state, verification notice, install prompt, offline notice, update av
 
 Dashboard menggunakan sidebar desktop dan drawer mobile dengan backdrop, Escape, focus return, serta active route. Dashboard dialog menggunakan native `<dialog>` atau pola dialog custom sesuai modul; perilaku keyboard perlu dites di browser. PWA notices hanya muncul sesuai state browser; tombol Install disembunyikan ketika event install tidak tersedia atau app sudah standalone. Offline, install, update, dan koneksi kembali mengikuti palette status yang sama dan tersedia dalam tiga locale.
 
+Theme switcher memakai popup `menu` dengan opsi eksklusif `menuitemradio`. Saat dibuka, fokus pindah ke pilihan aktif; tombol panah dan Home/End memindahkan fokus, Enter/Space memilih tema, Tab menutup menu dan melanjutkan urutan fokus, sedangkan Escape menutup dan mengembalikan fokus ke pemicu. `aria-checked` menyampaikan pilihan aktif dan live region terjemahan mengumumkan perubahan. Fokus memakai indikator `theme-focus`. JavaScript tests mencakup perilaku keyboard tersebut. Pengujian manual keyboard Theme Switcher, screen reader, kontras Light/Dark seluruh halaman, dan dukungan reduced-motion masih **Not Verified**.
+
 ## 5. Visual status
 
 | State | Arah visual | Aturan |
@@ -78,4 +80,4 @@ Jangan render `Paid`, `Success`, `Active`, saldo, atau live service status dari 
 
 Default `id`; dukung `en` dan `zh_CN`. Terjemahkan semua label, state, errors, dialog, install/offline/update UI. Proper nouns/model/provider/identifier/code tidak diterjemahkan. Format angka, tanggal, mata uang mengikuti locale dan source value terkonfirmasi.
 
-Target aksesibilitas: kontrol keyboard-operable, focus terlihat, icon bernama/berlabel, status memakai teks, tabel memiliki header/caption, dan chart memiliki ringkasan alternatif. Implementasi memiliki sebagian label, focus-visible, native dialogs/details, dan `aria-live`; keyboard, screen reader, kontras Light/Dark, serta dukungan reduced-motion belum diverifikasi menyeluruh. Tidak ada Livewire UI update yang digunakan sebagai pola utama saat ini.
+Target aksesibilitas: kontrol keyboard-operable, focus terlihat, icon bernama/berlabel, status memakai teks, tabel memiliki header/caption, dan chart memiliki ringkasan alternatif. Implementasi memiliki sebagian label, focus-visible, native dialogs/details, dan `aria-live`. Automated tests mencakup interaksi keyboard Theme Switcher; pengujian manual keyboard pada UI, screen reader, kontras Light/Dark, serta dukungan reduced-motion belum diverifikasi menyeluruh. Pemeriksaan visual yang telah dikonfirmasi pengguna tidak menyatakan bahwa aspek aksesibilitas tersebut telah lulus. Tidak ada Livewire UI update yang digunakan sebagai pola utama saat ini.

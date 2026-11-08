@@ -1,4 +1,16 @@
 import { publicTranslations } from './public-translations.js';
+import { dashboardTranslations } from './dashboard-translations.js';
+import { apiKeysTranslations } from './dashboard-api-keys-translations.js';
+import { usageTranslations } from './dashboard-usage-translations.js';
+import { logsTranslations } from './dashboard-logs-translations.js';
+import { billingTranslations } from './dashboard-billing-translations.js';
+import { initializeThemeSwitchers } from './theme-switcher.js';
+import './dashboard.js';
+import './dashboard-api-keys.js';
+import './dashboard-usage.js';
+import './dashboard-logs.js';
+import './dashboard-billing.js';
+import './pwa.js';
 
 const translations = {
     id: {
@@ -132,6 +144,21 @@ const translations = {
 Object.entries(publicTranslations).forEach(([locale, dictionary]) => {
     translations[locale] = { ...translations[locale], ...dictionary };
 });
+Object.entries(dashboardTranslations).forEach(([locale, dictionary]) => {
+    translations[locale] = { ...translations[locale], ...dictionary };
+});
+Object.entries(apiKeysTranslations).forEach(([locale, dictionary]) => {
+    translations[locale] = { ...translations[locale], ...dictionary };
+});
+Object.entries(usageTranslations).forEach(([locale, dictionary]) => {
+    translations[locale] = { ...translations[locale], ...dictionary };
+});
+Object.entries(logsTranslations).forEach(([locale, dictionary]) => {
+    translations[locale] = { ...translations[locale], ...dictionary };
+});
+Object.entries(billingTranslations).forEach(([locale, dictionary]) => {
+    translations[locale] = { ...translations[locale], ...dictionary };
+});
 
 const languageSelects = [
     document.querySelector('#language-select'),
@@ -150,6 +177,10 @@ function setLanguage(locale) {
         const value = dictionary[element.dataset.i18nAriaLabel];
         if (value) element.setAttribute('aria-label', value);
     });
+    document.querySelectorAll('[data-i18n-title]').forEach((element) => {
+        const value = dictionary[element.dataset.i18nTitle];
+        if (value) element.setAttribute('title', value);
+    });
     document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
         const value = dictionary[element.dataset.i18nPlaceholder];
         if (value) element.setAttribute('placeholder', value);
@@ -165,6 +196,7 @@ function setLanguage(locale) {
     });
     languageSelects.forEach((select) => { select.value = locale; });
     try { localStorage.setItem('itoken-ui-locale', locale); } catch {}
+    window.dispatchEvent(new CustomEvent('itoken:locale-change', { detail: { locale } }));
 }
 
 let savedLocale = 'id';
@@ -173,6 +205,7 @@ try {
     if (candidate && translations[candidate]) savedLocale = candidate;
 } catch {}
 setLanguage(savedLocale);
+initializeThemeSwitchers();
 languageSelects.forEach((select) => select.addEventListener('change', (event) => setLanguage(event.target.value)));
 
 const menuToggle = document.querySelector('#mobile-menu-toggle');

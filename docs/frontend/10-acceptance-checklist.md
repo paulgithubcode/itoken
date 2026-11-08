@@ -10,9 +10,8 @@ Legenda status implementasi: **Completed — UI**, **Completed — Local**, **Co
 - [x] Pricing/model contoh diberi label atau copy DEMO; homepage menyebut metode pembayaran sebagai rencana informasional.
 - [x] Target section `#how-it-works` tersedia di Homepage.
 - [x] Pengguna memverifikasi navigasi langsung ke `#how-it-works` dan posisi section di browser.
-- [x] Bahasa dan tampilan Homepage yang diminta telah diverifikasi pengguna.
-- [x] Pengguna mengonfirmasi tampilan Public Website pada berbagai ukuran layar telah diuji manual dan sesuai; browser, perangkat, dan ukuran viewport spesifik tidak dicatat.
-- [x] Pengguna mengonfirmasi konsistensi navigasi, konten, tema, dan komponen UI telah diperiksa dan sesuai pada Home, Pricing, Models, Docs, FAQ, About, Contact, Terms, Privacy, dan Status.
+- [x] Pengguna mengonfirmasi tampilan homepage telah diperiksa secara visual pada desktop, tablet, dan mobile; browser, perangkat, dan ukuran viewport spesifik tidak dicatat.
+- [x] Audit statis mencakup route, navigasi, konten, dan komponen UI Home, Pricing, Models, Docs, FAQ, About, Contact, Terms, Privacy, dan Status; cakupan ini bukan konfirmasi bahwa semua halaman telah diuji visual secara manual.
 - [ ] Semua route, CTA, link header/footer dan placeholder ditinjau browser.
 - [ ] Responsive desktop/tablet/mobile tanpa unintended overflow diverifikasi secara terperinci untuk seluruh route.
 - [ ] Keyboard, focus, contrast, screen reader dan reduced motion diuji.
@@ -58,9 +57,11 @@ Legenda status implementasi: **Completed — UI**, **Completed — Local**, **Co
 - [ ] Desktop, tablet, mobile: tidak ada unintended overflow.
 - [ ] Keyboard, focus, form labels, heading order, status nonwarna, contrast dan screen reader diperiksa.
 - [x] JavaScript tests Theme Switcher mencakup navigasi menu dengan keyboard, Enter/Space, Escape/focus return, status ARIA/live announcement, serta sinkronisasi desktop/mobile.
-- [x] Pengguna memverifikasi manual keyboard Theme Switcher: Enter/Space, Arrow Up/Down, Home/End, Escape, desktop/mobile, dan sinkronisasi Light/Dark/System.
+- [ ] Pengujian manual keyboard Theme Switcher (Enter/Space, Arrow Up/Down, Home/End, Escape) dan sinkronisasi tema.
 - [ ] Pengumuman screen reader Theme Switcher diuji secara khusus.
 - [ ] `prefers-reduced-motion` diverifikasi; dukungan global saat ini belum lengkap.
+
+Pemeriksaan visual manual yang telah dikonfirmasi pengguna mencakup homepage pada desktop, tablet, dan mobile; Login, Register, dan Forgot Password; serta halaman internal yang tercakup dalam tinjauan sebelumnya. Daftar route internal, browser, perangkat, dan viewport spesifik tidak dicatat. Halaman publik lain dan pengujian fungsi/accessibility tidak dinyatakan telah diuji manual.
 
 ## PWA
 
@@ -70,15 +71,27 @@ Legenda status implementasi: **Completed — UI**, **Completed — Local**, **Co
 - [ ] Offline navigation, reconnect, update, multi-tab, precache failure dan recovery diuji browser.
 - [ ] Production HTTPS, deployment scope, MIME dan installability target diverifikasi.
 
+## SEO dan SEM
+
+- [x] Metadata title/description, canonical, Open Graph, Twitter Card, dan JSON-LD tersedia pada halaman publik.
+- [x] Sitemap hanya berisi Home, About, dan FAQ; auth/dashboard/demo/placeholder/error tidak disertakan.
+- [x] robots.txt mencantumkan sitemap produksi dan tidak memblokir crawler membaca meta robots pada route auth/dashboard.
+- [x] Auth, dashboard DEMO, placeholder, dan 404 memiliki kebijakan noindex sesuai dokumen SEO.
+- [x] Setiap halaman publik yang diperiksa memiliki satu H1 dan landmark `main`/`nav`; saat ini tidak ada gambar konten publik.
+- [ ] Validasi browser, XML/robots, Rich Results, HTTPS/redirect, serta Search Console pada hosting produksi.
+- [ ] Keputusan analytics/consent, konversi, dan campaign Ads masih Pending; tidak ada tracking/iklan terpasang.
+
+Rincian strategi ada di [11 — SEO dan SEM](11-seo-sem.md).
+
 ## Test dan verifikasi
 
 Status pada update ini: `node --test tests/js/theme-switcher.test.js tests/js/global-theme.test.js` lulus; `npm run build` lulus. Hasil ini tidak mencakup verifikasi browser atau screen reader.
 
 - [x] `npm run build` berhasil pada lingkungan kerja ini.
-- [ ] Catat Laravel feature tests beserta command, PHP/container dan hasil.
+- [x] `docker exec php85 sh -lc 'cd /var/www/html/itoken && php artisan test --compact'`: 19 test lulus (398 assertions), termasuk pemeriksaan SEO.
 - [x] `node --test tests/js/theme-switcher.test.js tests/js/global-theme.test.js` berhasil; `package.json` belum menyediakan script test JavaScript.
 - [ ] Catat Pint jika file PHP disentuh.
-- [ ] Jalankan `git diff --check` dan simpan status/diff perubahan.
+- [x] `git diff --check` berhasil.
 - [ ] Catat browser, ukuran viewport, skenario dan hasil visual/accessibility/PWA.
 
 Lihat `09-implementation-roadmap.md` untuk ringkasan implementasi dan pekerjaan berikutnya. Checklist ini tidak menyatakan seluruh aplikasi siap produksi.

@@ -66,6 +66,7 @@ Cache Storage tidak berisi dashboard HTML, API response, profile private data, w
 - Jangan menyajikan data privat terakhir seolah-olah masih mutakhir.
 - Form/API action yang belum berhasil dikirim tidak boleh dilabeli berhasil atau dimasukkan antrean diam-diam.
 - Saat koneksi kembali, tampilkan pesan singkat. Sebut data refreshed hanya setelah Backend API request berhasil.
+- Pesan konektivitas diperbarui pada elemen teks yang sama untuk mempertahankan markup terjemahan. Transisi online/offline membatalkan timer notifikasi sebelumnya agar timer koneksi pulih tidak menyembunyikan pesan offline terbaru.
 - Background sync/retry/draft persistence belum diputuskan; statusnya **Pending** per fitur.
 - Offline fallback memilih locale tersimpan non-sensitif (`itoken-ui-locale`) dan menyediakan pilihan bahasa manual; fallback locale tidak dikenal adalah `id`.
 
@@ -103,4 +104,5 @@ Kode menyediakan pemberitahuan worker yang menunggu dan aksi Update; perubahan f
 - Dashboard/auth/API/payment/private responses tidak pernah masuk cache; prompt/completion/secret tidak pernah disimpan.
 - **Acceptance pending:** worker update harus diuji agar menginformasikan pengguna, tidak membuang form changes tanpa peringatan, dan mengganti cache lama dengan benar.
 - **Acceptance pending:** test online/offline/reconnect/update dan locale di desktop serta mobile target harus dijalankan dan hasilnya dicatat.
+- Temuan QA-002 diperbaiki pada `resources/js/pwa.js`; notifikasi kini menampilkan status jaringan terbaru dan mendukung terjemahan Indonesia, Inggris, serta Mandarin tanpa menghapus child markup. `tests/js/pwa-connectivity.test.js` menguji empat urutan transisi online/offline serta pergantian locale. Kedua layout (publik dan dashboard) memakai ID/markup notifikasi yang sama; verifikasi runtime visual tetap memerlukan browser testing manual.
 - PWA verification artifacts/results dicatat pada `09-implementation-roadmap.md` dan `10-acceptance-checklist.md`.

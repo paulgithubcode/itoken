@@ -1,4 +1,4 @@
-<x-layouts.app title="Kredit dan harga demo" active="pricing">
+<x-layouts.app title="Kredit dan harga demo" description="Lihat pratinjau paket kredit iToken. Nilai harga, bonus, dan masa berlaku pada halaman ini adalah data demonstrasi, bukan penawaran resmi." active="pricing" robots="noindex, follow">
     <div class="space-y-12 sm:space-y-16">
         <header class="mx-auto max-w-3xl text-center">
             <x-ui.badge tone="warning" data-i18n="pricing.hero.badge">DEMO · BUKAN HARGA FINAL</x-ui.badge>

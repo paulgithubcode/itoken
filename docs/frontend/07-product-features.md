@@ -12,7 +12,7 @@ Semua fitur di bawah adalah cakupan UI produk. UI/mock dapat dibuat sebelum inte
 | Usage & Analytics | Periode, summary, dua grafik SVG, search/model/status dan pagination | Backend API belum terhubung | **Demo**; data sintetik lokal, tanpa prompt/completion |
 | Logs | Search/filter status/HTTP/model/periode, pagination dan modal detail teredaksi | Backend API belum terhubung | **Demo**; record fiktif dan tidak mewakili request akun |
 | Developer Documentation | Public docs berisi quickstart/code sample placeholder; dashboard Developer Docs placeholder | API/SDK contract belum tersedia | **Partial**; bukan dokumentasi endpoint operasional |
-| Profile & Account Settings | Theme, density, table rows, reset, dan edit profil/foto/WhatsApp lokal | Clerk/Backend API belum terhubung | **Completed — Local** untuk preferensi/profil demonstrasi; bukan data akun server |
+| Profile & Account Settings | Tema global Light/Dark/System, density, table rows, reset, dan edit profil/foto/WhatsApp lokal | Clerk/Backend API belum terhubung | **Completed — Local** untuk preferensi/profil demonstrasi; tema dikelola melalui `window.iTokenTheme` dan bukan data akun server |
 | Security | Tidak ada kontrol security operasional saat ini | Clerk/Backend API belum terhubung | **Pending**; jangan klaim password/MFA/session feature aktif |
 | How It Works / FAQ | Edukasi produk, konsep credit, privasi, integrasi | Public copy yang disetujui | Jelaskan konsep; hindari menyatakan detail bisnis belum disahkan sebagai final |
 | Service Status | Public status placeholder | Status source/API belum terhubung | **Demo/Partial**; bukan health monitor atau uptime live |

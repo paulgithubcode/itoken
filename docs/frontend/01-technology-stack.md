@@ -54,7 +54,7 @@ Diagram menunjukkan pembagian lapisan, bukan endpoint atau protokol yang sudah d
 - Design system dan responsive behavior dengan Tailwind CSS 4.
 - Clerk verification, session aplikasi, dan akses Backend API belum diimplementasikan.
 - Ketika tersedia, Laravel wajib memverifikasi Clerk di server dan menjadi perantara ke Backend API.
-- localStorage saat ini hanya dipakai untuk preferensi tampilan/locale dan profil DEMO; bukan sumber identitas atau business state.
+- localStorage saat ini dipakai untuk preferensi tema global (`itoken.theme`), locale, preferensi Dashboard lain, dan profil DEMO; bukan sumber identitas atau business state. Tema dikelola melalui `window.iTokenTheme`; key tema `itoken.dashboard.theme` hanya dibaca sebagai legacy key untuk migrasi.
 - Menyajikan loading, empty, error, success, stale, dan offline states secara jujur berdasarkan sumber yang tersedia.
 - Menjaga localization `id`, `en`, dan `zh_CN`, serta pengalaman PWA.
 

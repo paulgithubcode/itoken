@@ -2,6 +2,10 @@
 
 return [
 
+    'seo' => [
+        'production_origin' => 'https://itoken.id',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Third Party Services

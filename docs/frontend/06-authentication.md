@@ -45,7 +45,9 @@ Semuanya **Pending**. Tidak ada integrasi Clerk nyata, session verification, pro
 
 ## 6. Status pengujian
 
-`tests/Feature/AuthPagesTest.php` memeriksa render UI/route dan perilaku placeholder logout; `tests/js/auth-pages.test.js` memeriksa localization auth. Tes tersebut tidak membuktikan integrasi Clerk, security/session verification, maupun browser accessibility. Browser auth belum diverifikasi.
+`tests/Feature/AuthPagesTest.php` memeriksa render UI/route dan perilaku placeholder logout; `tests/js/auth-pages.test.js` memeriksa localization auth. Pengguna mengonfirmasi pemeriksaan visual Login, Register, dan Forgot Password. Password Reset Instructions tidak termasuk dalam konfirmasi visual tersebut. Verifikasi flow Clerk, security/session, keyboard, screen reader, dan integrasi autentikasi tetap **Not Verified**; pemeriksaan visual tidak membuktikan fungsi auth.
+
+Temuan QA-001 diperbaiki pada `resources/views/components/layouts/auth.blade.php`: satu H1 kini tetap tampil pada seluruh ukuran viewport; konten pendamping dan penanda status di panel samping tetap khusus desktop. `tests/Feature/AuthPagesTest.php` memastikan Login, Register, Forgot Password, dan Password Reset Instructions masing-masing merender tepat satu H1. Perilaku visual lintas breakpoint masih memerlukan browser testing manual.
 
 ## 6. Acceptance
 
