@@ -8,9 +8,9 @@ use Illuminate\Http\Response;
 
 class AuthPagesController extends Controller
 {
-    public function login(): Response
+    public function login(): RedirectResponse
     {
-        return $this->page('auth.login');
+        return redirect()->route('dashboard.index');
     }
 
     public function register(): Response

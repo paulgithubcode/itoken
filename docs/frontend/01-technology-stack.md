@@ -19,7 +19,7 @@
 
 1. Vite membangun entry CSS/JS yang dimuat layout Blade.
 2. Blade merender halaman; Vanilla JavaScript modules menangani interaksi browser yang tersedia saat ini. Livewire dependency/asset directives tersedia, tetapi belum menjadi mekanisme utama interaksi halaman yang diaudit.
-3. Route auth merender halaman UI. Clerk verification/session flow belum aktif; integrasi tetap `Pending` sampai kontrak resmi tersedia.
+3. GET `/login` sementara mengarahkan ke `/dashboard`; `/register` dan route pemulihan merender UI placeholder. Clerk verification/session flow belum aktif; integrasi tetap `Pending` sampai kontrak resmi tersedia.
 4. Dashboard route saat ini menyajikan UI DEMO dan tidak terhubung ke Backend API. Backend API tetap pemilik business data/action bila integrasi dimulai.
 5. LiteLLM dan Redis tetap komponen backend, tidak diakses browser.
 6. Service worker hanya mengelola aset statis yang di-allowlist dan offline fallback.

@@ -27,7 +27,7 @@ Aplikasi adalah Laravel dengan halaman server-rendered Blade. Route yang benar-b
 | Status | `/status` | Belum terhubung ke pemantauan layanan | `noindex, follow` |
 | 404 | Fallback route | Halaman tidak ditemukan, status HTTP 404 | `noindex, nofollow`; tanpa canonical dan sitemap |
 
-`/login`, `/register`, `/forgot-password`, dan `/password-reset/instructions` adalah UI auth tanpa integrasi autentikasi operasional. `/dashboard/{section?}` adalah DEMO dan belum dilindungi autentikasi backend. Keduanya tidak menjadi target pencarian. `noindex` dan robots.txt bukan kontrol akses; jangan menyajikan data privat sebelum autentikasi server tersedia.
+`/login` sementara mengarahkan ke dashboard demo; `/register`, `/forgot-password`, dan `/password-reset/instructions` adalah UI auth tanpa integrasi autentikasi operasional. `/dashboard/{section?}` adalah DEMO dan belum dilindungi autentikasi backend. Keduanya tidak menjadi target pencarian. `noindex` dan robots.txt bukan kontrol akses; jangan menyajikan data privat sebelum autentikasi server tersedia.
 
 ## 3. SEO On-Page
 

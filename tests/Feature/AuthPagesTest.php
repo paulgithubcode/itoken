@@ -6,22 +6,9 @@ use Tests\TestCase;
 
 class AuthPagesTest extends TestCase
 {
-    public function test_login_page_renders_unavailable_clerk_form_without_authentication_claims(): void
+    public function test_login_redirects_to_the_demo_dashboard_without_authentication_checks(): void
     {
-        $response = $this->get('/login');
-
-        $response->assertOk()
-            ->assertSee('page.auth.login.title', false)
-            ->assertSee('auth.field.email', false)
-            ->assertSee('auth.field.password', false)
-            ->assertSee('auth.login.remember', false)
-            ->assertSee('auth.login.forgot', false)
-            ->assertSee('auth.google.unavailable', false)
-            ->assertSee('auth.unavailable.body', false)
-            ->assertSee('disabled', false)
-            ->assertDontSee('Clerk session verified');
-
-        $this->assertStringContainsString('no-store', $response->headers->get('Cache-Control'));
+        $this->get('/login')->assertRedirect(route('dashboard.index'));
     }
 
     public function test_register_page_contains_required_profile_and_terms_fields(): void
@@ -53,7 +40,7 @@ class AuthPagesTest extends TestCase
 
     public function test_authentication_pages_have_one_primary_heading_available_at_all_viewports(): void
     {
-        foreach (['/login', '/register', '/forgot-password', '/password-reset/instructions'] as $path) {
+        foreach (['/register', '/forgot-password', '/password-reset/instructions'] as $path) {
             $response = $this->get($path)->assertOk();
             $html = $response->getContent();
 
@@ -76,6 +63,8 @@ class AuthPagesTest extends TestCase
     {
         $this->get('/dashboard')
             ->assertOk()
-            ->assertSee('DEMO');
+            ->assertSee('DEMO')
+            ->assertSee('dashboard.logout', false)
+            ->assertSee('href="'.route('home').'"', false);
     }
 }

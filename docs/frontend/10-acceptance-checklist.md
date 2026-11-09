@@ -33,8 +33,8 @@ Legenda status implementasi: **Completed — UI**, **Completed — Local**, **Co
 
 ## Authentication
 
-- [x] UI login, register, forgot-password, dan instruksi reset tersedia dengan pemberitahuan bahwa auth belum aktif.
-- [x] Logout menggunakan POST route; interaksi saat ini menyatakan tidak ada session yang diakhiri.
+- [x] GET `/login` sementara mengarahkan ke `/dashboard` tanpa pemeriksaan autentikasi/session; Register dan pemulihan tetap UI placeholder dengan tombol submit dinonaktifkan.
+- [x] Tautan Logout dashboard langsung kembali ke `/` tanpa mengakhiri atau memeriksa sesi. Route POST `/logout` masih placeholder.
 - [ ] Clerk SDK/hosted flow dikonfigurasi dengan kredensial sah.
 - [ ] Laravel memverifikasi Clerk session di server dan membuat session aplikasi aman.
 - [ ] Dashboard/route privat memakai middleware autentikasi dan authorization.

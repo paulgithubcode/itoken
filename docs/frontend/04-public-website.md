@@ -2,7 +2,7 @@
 
 ## 1. Tujuan dan prioritas
 
-Public Website menjelaskan nilai iToken sebelum login dan membawa pengunjung ke eksplorasi model, harga, petunjuk, dan FAQ. **Homepage adalah prioritas visual pertama**: proposisi nilai harus dipahami cepat, CTA terlihat, dan seluruh data yang belum final ditandai DEMO/PENDING.
+Public Website menjelaskan nilai iToken dan membawa pengunjung ke eksplorasi model, harga, petunjuk, FAQ, serta jalur Login dan Register. **Homepage adalah prioritas visual pertama**: proposisi nilai harus dipahami cepat, CTA terlihat, dan seluruh data yang belum final ditandai DEMO/PENDING. Tautan Login dan Register tersedia di navigasi desktop dan menu mobile; Login sementara mengarahkan ke `/dashboard`, sedangkan halaman Register tetap UI placeholder. Autentikasi belum diaktifkan.
 
 Public Website dan Customer Dashboard berbagi logo, preferensi tema global (Light, Dark, System), type scale, spacing, color tokens, buttons, cards, badges, forms, dan accessibility patterns. Pilihan System mengikuti preferensi warna OS. Theme switcher berada di Public Header untuk desktop dan mobile; tema juga dapat diatur dari Dashboard Settings. Public navigation dan dashboard navigation boleh berbeda untuk tujuan tugas.
 
@@ -20,7 +20,9 @@ Route publik yang tersedia pada implementasi saat ini:
 
 | Halaman | Route saat ini | Tujuan/isi | Sumber data/status |
 |---|---|---|---|
-| Homepage | `/` | Hero, manfaat, model unggulan, konsep kredit, ringkasan pricing, metode pembayaran informasional, developer value, FAQ | Copy statis; model/pricing mock berlabel DEMO; metode pembayaran hanya rencana visual |
+| Homepage | `/` | Hero, manfaat, model unggulan, konsep kredit, ringkasan pricing, metode pembayaran informasional, developer value, FAQ; navigasi menyediakan tautan Login dan Register | Copy statis; model/pricing mock berlabel DEMO; metode pembayaran hanya rencana visual; Login menuju dashboard demo, Register membuka UI placeholder |
+| Login | `/login` → `/dashboard` | Tautan navigasi sementara mengarahkan ke dashboard demo | Tidak memeriksa login/session dan bukan autentikasi. Lihat [06 — Authentication](06-authentication.md) |
+| Register | `/register` | Halaman UI registrasi placeholder, ditautkan dari navigasi desktop dan mobile | Autentikasi belum aktif; tombol submit dinonaktifkan. Lihat [06 — Authentication](06-authentication.md) |
 | Models | `/models` | Search, filter provider, cards, category/context | Mock; bukan katalog aktif |
 | Pricing | `/pricing` | Paket, bonus, masa berlaku demo, FAQ | Mock; bukan penawaran dan tidak memulai payment |
 | Documentation | `/docs` | Overview, quickstart placeholder, model info, code examples, security | Placeholder; bukan API contract |
@@ -86,7 +88,7 @@ Homepage tidak menampilkan saldo akun, key aktif, transaksi, statistik live, ata
 
 `id` default; `en` dan `zh_CN` harus mencakup seluruh copy dan UI states. Language selector konsisten desktop/mobile. Locale persistence server/account policy masih Pending; browser preference boleh disimpan sebagai data non-sensitif saja.
 
-Public header horizontal di desktop dan drawer/menu pada mobile; tombol memiliki `aria-expanded`, nama accessible, focus, dan Escape behavior. Semua footer/header link harus menuju route/section yang tersedia. Tablet tidak boleh membuat nav/CTA bertabrakan.
+Public header horizontal di desktop dan drawer/menu pada mobile; tombol memiliki `aria-expanded`, nama accessible, focus, dan Escape behavior. Login tampil sebagai tombol sekunder dan Register sebagai CTA utama pada desktop maupun menu mobile. Login sementara mengarah ke dashboard demo; Register menuju halaman placeholder. Keduanya bukan autentikasi yang berfungsi. Semua footer/header link harus menuju route/section yang tersedia. Tablet tidak boleh membuat nav/CTA bertabrakan.
 
 Homepage telah dikonfirmasi diperiksa secara visual pada desktop, tablet, dan mobile. Browser, perangkat, serta ukuran viewport spesifik tidak dicatat. Responsive layout halaman publik lainnya masih **Pending manual verification**. Pemeriksaan visual homepage tidak menandai pengujian keyboard, screen reader, contrast, atau aspek accessibility lain sebagai selesai.
 

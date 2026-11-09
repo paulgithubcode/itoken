@@ -82,7 +82,9 @@
                     <option value="zh_CN">简体中文</option>
                 </select>
                 <x-theme-switcher variant="desktop" />
-                <x-ui.button href="{{ route('models.index') }}" size="sm" data-i18n="nav.cta">Jelajahi model</x-ui.button>
+                <x-ui.button href="{{ route('models.index') }}" variant="secondary" size="sm" data-i18n="nav.cta">Jelajahi model</x-ui.button>
+                <x-ui.button href="{{ route('login') }}" variant="secondary" size="sm" data-i18n="nav.login">Login</x-ui.button>
+                <x-ui.button href="{{ route('register') }}" size="sm" data-i18n="nav.register">Register</x-ui.button>
             </div>
 
             <button id="mobile-menu-toggle" class="grid size-11 place-items-center rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100 lg:hidden" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka menu navigasi" data-i18n-aria-label="menu.open">
@@ -97,6 +99,8 @@
                 <a class="mobile-nav-link" href="{{ route('pricing') }}" data-i18n="nav.pricing">Harga demo</a>
                 <a class="mobile-nav-link" href="{{ route('docs.index') }}" data-i18n="nav.docs">Dokumentasi</a>
                 <a class="mobile-nav-link" href="{{ route('faq.index') }}" data-i18n="nav.faq">FAQ</a>
+                <x-ui.button class="mt-2 w-full" href="{{ route('login') }}" variant="secondary" size="sm" data-i18n="nav.login">Login</x-ui.button>
+                <x-ui.button class="mt-1 w-full" href="{{ route('register') }}" size="sm" data-i18n="nav.register">Register</x-ui.button>
                 <label class="mt-3 block text-xs font-semibold uppercase tracking-wide text-slate-500" for="mobile-language-select" data-i18n="language.label">Pilih bahasa</label>
                 <select id="mobile-language-select" class="min-h-11 rounded-xl border border-slate-200 bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-100" aria-label="Pilih bahasa" data-i18n-aria-label="language.label">
                     <option value="id">Bahasa Indonesia</option>

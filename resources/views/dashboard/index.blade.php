@@ -110,6 +110,7 @@
                                 <p class="mt-1 break-all text-xs theme-text-muted" data-i18n="dashboard.profile.email">user@example.test · DEMO</p>
                                 <p class="mt-3 rounded-xl theme-badge-warning px-3 py-2 text-xs leading-5 theme-text-label" data-i18n="dashboard.profile.notice">Profil ini hanya pratinjau. Tidak ada akun atau sesi autentikasi.</p>
                                 <a href="{{ route('dashboard.index', ['section' => 'settings']) }}" class="mt-3 inline-flex rounded-lg px-2 py-1 text-sm font-semibold theme-link theme-interactive-surface-hover" data-i18n="dashboard.settings">Settings</a>
+                                <a href="{{ route('home') }}" class="mt-3 block border-t theme-border-subtle px-2 pt-3 text-sm font-semibold theme-text-secondary theme-link-hover" data-i18n="dashboard.logout">Logout</a>
                             </div>
                         </details>
                     </div>

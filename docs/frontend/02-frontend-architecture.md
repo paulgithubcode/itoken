@@ -68,7 +68,7 @@ SEO publik menggunakan metadata dari layout Blade dan konfigurasi origin produks
 
 ### Clerk
 
-Clerk ditetapkan sebagai identity provider yang direncanakan, tetapi belum ada SDK/verification/session flow terintegrasi. Auth routes hanya merender UI; POST logout juga menyatakan tidak ada sesi yang diakhiri. Laravel scaffold masih memuat model/migration `users` dan guard Eloquent default, tetapi route auth yang diperiksa tidak menggunakannya. Keputusan penggunaan/penghapusan scaffold perlu ditentukan sebelum integrasi. Jangan menganggap user ID atau status login browser sebagai bukti autentikasi.
+Clerk ditetapkan sebagai identity provider yang direncanakan, tetapi belum ada SDK/verification/session flow terintegrasi. GET `/login` sementara mengarahkan ke `/dashboard`; route Register dan pemulihan merender UI placeholder. Tautan Logout pada dashboard hanya kembali ke `/` dan tidak mengakhiri sesi; route POST `/logout` yang tersedia juga tidak melakukan autentikasi. Laravel scaffold masih memuat model/migration `users` dan guard Eloquent default, tetapi route auth yang diperiksa tidak menggunakannya. Keputusan penggunaan/penghapusan scaffold perlu ditentukan sebelum integrasi. Jangan menganggap user ID atau status login browser sebagai bukti autentikasi.
 
 ### Backend API, LiteLLM, dan Redis
 
@@ -88,7 +88,7 @@ Clerk ditetapkan sebagai identity provider yang direncanakan, tetapi belum ada S
 ### Authenticated Dashboard
 
 1. Route `/dashboard/{section?}` saat ini merender UI DEMO tanpa pemeriksaan auth.
-2. Route auth merender halaman UI tanpa memproses credential.
+2. GET `/login` sementara mengarahkan ke dashboard demo; route Register dan pemulihan merender UI tanpa memproses credential.
 3. Clerk server verification, session, authorization, identity mapping, dan Backend API belum tersedia.
 4. Saat integrasi kelak dilakukan, seluruh pemeriksaan harus terjadi di server sebelum data privat dirender.
 

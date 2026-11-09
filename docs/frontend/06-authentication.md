@@ -2,24 +2,26 @@
 
 ## 1. Pemilikan identity
 
-Clerk adalah identity provider yang dituju, tetapi belum ada integrasi SDK/verification/session pada aplikasi saat ini. Route auth merender UI native Laravel. Dashboard belum diproteksi. Laravel scaffold masih menyertakan model/migration `users` dan guard Eloquent default, tetapi belum digunakan oleh alur auth yang ada; status scaffold ini harus diputuskan sebelum integrasi Clerk. Jangan menyimpulkan status login dari browser.
+Clerk adalah identity provider yang dituju, tetapi belum ada integrasi SDK/verification/session pada aplikasi saat ini. GET `/login` sementara mengarahkan ke `/dashboard` tanpa pemeriksaan login, session, atau autentikasi. Route Register dan pemulihan merender UI native Laravel. Dashboard belum diproteksi. Laravel scaffold masih menyertakan model/migration `users` dan guard Eloquent default, tetapi belum digunakan oleh alur auth yang ada; status scaffold ini harus diputuskan sebelum integrasi Clerk. Jangan menyimpulkan status login dari browser.
 
 Frontend mengatur branded entry points, form/embedded states bila integrasi mendukung, feedback/loading/error, navigasi aman, serta tampilan akun. Clerk tetap sumber identity; Laravel/backend tetap memvalidasi akses. Browser data saja tidak membuktikan identitas.
 
 ## 2. Layar dan state UI
 
+Navigasi Public Website menampilkan tautan **Login** ke `/login` dan **Register** ke `/register` pada desktop dan menu mobile. GET `/login` mengarahkan ke `/dashboard`; Register membuka halaman UI placeholder. Form submit Register tetap dinonaktifkan dan tidak ada alur autentikasi yang aktif.
+
 | Layar | Konten/state | Status integrasi |
 |---|---|---|
-| Sign in | UI email/password, remember-me, password toggle, forgot/register links; Google dinonaktifkan | **Completed — UI**; submit auth belum tersedia |
+| Sign in | GET `/login` mengarahkan ke `/dashboard` | **Sementara**; tidak memeriksa identitas/session dan tidak melakukan autentikasi |
 | Sign up | UI nama, email, password/konfirmasi, terms consent, login link | **Completed — UI**; akun tidak dibuat |
 | Email verification | Belum ada halaman/flow verifikasi operasional | **Pending**; status hanya boleh muncul dari Clerk response setelah integrasi |
 | Forgot password | UI email dan halaman instruksi yang menyatakan email tidak dikirim | **Completed — UI**; request/reset belum tersedia |
 | Reset password | Halaman instruksi reset tersedia; form set password baru belum ada | Instruksi **Completed — UI**; reset flow **Pending** |
 | Auth errors/loading | Network/provider error, invalid state, retry/dismiss | Mapping error Clerk/Laravel **Pending** |
-| Sign out | Route POST mengarahkan ke login dan memberi pesan bahwa tidak ada sesi yang diakhiri | **Partial**; bukan logout operasional |
+| Sign out | Tautan Logout pada menu profil dashboard langsung membuka `/`; route POST `/logout` yang tersedia tetap placeholder | **Sementara**; tidak mengakhiri atau memeriksa sesi |
 | Profile/Security | Identity attributes/status yang disediakan Clerk/Backend API | Ownership per field dan mutasi **Pending** |
 
-Seluruh halaman auth saat ini adalah **Completed — UI**, bukan autentikasi operasional. Tidak ada POST login/register/forgot-password; tombol submit dinonaktifkan dan Google dinonaktifkan. Tidak boleh menyatakan login, signup, email verification, password reset, OAuth, atau logout berhasil.
+Halaman Register dan pemulihan adalah **Completed — UI**, bukan autentikasi operasional. GET `/login` mengarahkan ke dashboard demo. Tidak ada POST login/register/forgot-password; tombol submit form yang tersedia tetap dinonaktifkan dan Google dinonaktifkan. Tautan Logout dashboard hanya kembali ke `/`. Tidak boleh menyatakan login, signup, email verification, password reset, OAuth, atau logout sesi berhasil.
 
 ## 3. Konseptual flow
 
